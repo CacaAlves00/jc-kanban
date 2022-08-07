@@ -1,0 +1,44 @@
+#card {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 50%;
+    left: 45%;
+
+    width: 11vw;
+    height: 4vw;
+    border: 5px solid black;
+    cursor: grab;
+
+    .icon {
+        align-self: end;
+        height: 1.1rem !important;
+        width: 1.1rem !important;
+        cursor: pointer;
+    }
+
+    textarea {
+        font-size: 1.25rem;
+        flex-grow: 1;
+        background-color: transparent;
+        border: none;
+        outline: none;
+    }
+}
+
+
+@media (max-width: 500px) {
+    #card {
+        height: 10.5vw;
+        width: 22vw;
+
+        .icon {
+            height: 1.5rem !important;
+            width: 1.5rem !important;
+        }
+
+        textarea {
+            font-size: 1.7rem;
+        }
+    }
+}

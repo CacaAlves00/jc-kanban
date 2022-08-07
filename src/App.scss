@@ -1,0 +1,28 @@
+.App {
+
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  height: 97vh;
+  box-sizing: border-box;
+  margin: 3vh auto 0 auto;
+  color: #3C3C3B;
+
+  #add-icon {
+    // align-self: flex-end;
+    cursor: pointer;
+  }
+  
+  #kanban-columns {
+    display: flex;
+    flex-grow: 1;
+    margin-top: 2vh;
+  }
+  
+}
+
+@media (max-width: 600px) {
+  .App {
+    width: 99vw;
+  }
+}
