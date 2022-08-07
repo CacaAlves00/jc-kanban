@@ -1,13 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Draggable from 'react-draggable'
 import { GrClose } from 'react-icons/gr'
-import useDraggable from '../../hooks/useDraggable'
 import './styles.scss'
 
 const cardColors = [
     '#C3D06A',
     '#FFDD00'
 ]
+
+const initialPosition = {
+    x: 0,
+    y: 0
+}
 
 function getRandomColor() {
     return cardColors[Math.floor(Math.random() * cardColors.length)]
@@ -21,17 +25,10 @@ function Card({ cardId, removeCard }) {
 
     const cardRef = useRef()
 
-    const initialPosition = {
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2.5
-    }
-
-    const [position, setPosition, toggleIsDragging] = useDraggable(cardRef, initialPosition)
+    const [position, setPosition] = useState(initialPosition)
 
     const styles = {
-        border: `5px solid ${color.current}`,
-        top: `${position.y}px`,
-        left: `${position.x}px`
+        borderColor: `${color.current}`,
     }
 
     useEffect(() => {
@@ -58,8 +55,8 @@ function Card({ cardId, removeCard }) {
             const retrievedSubject = JSON.parse(retrievedCardSubjectData)
             setSubject(retrievedSubject)
         }
-        
-        if (retrievedCardPosData !== null){
+
+        if (retrievedCardPosData !== null) {
             const retrievedCardPos = JSON.parse(retrievedCardPosData)
             setPosition(retrievedCardPos)
         }
@@ -72,12 +69,28 @@ function Card({ cardId, removeCard }) {
         removeCard()
     }
 
+    function handelDrag(e) {
+        const bounding = cardRef.current.getBoundingClientRect()
+
+        setPosition((position) => {
+            return {
+                x: position.x + (e.clientX - bounding.x) - bounding.width / 2,
+                y: position.y + (e.clientY - bounding.y) - bounding.height / 2
+
+                // x: e.clientX,
+                // y: e.clientY
+            }
+        })
+    }
+
     return (
-        <div id='card' ref={cardRef} style={styles} onClick={toggleIsDragging}>
-            <GrClose className='icon' onClick={handleRemoveCard} />
-            <textarea type='text' placeholder='Assunto..'
-                value={subject} onChange={(e) => setSubject(e.target.value)} />
-        </div>
+        <Draggable position={position} onDrag={handelDrag}>
+            <div id='card' ref={cardRef} style={styles}>
+                <GrClose className='icon' onClick={handleRemoveCard} />
+                <textarea type='text' placeholder='Assunto..'
+                    value={subject} onChange={(e) => setSubject(e.target.value)} />
+            </div>
+        </Draggable>
     )
 }
 
