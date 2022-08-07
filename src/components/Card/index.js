@@ -93,7 +93,7 @@ function Card({ cardId, removeCard }) {
     return (
         <Draggable position={position} onDrag={handelDrag}>
             <div id='card' ref={cardRef} style={styles}>
-                <GrClose className='icon' onClick={handleRemoveCard} />
+                <GrClose className='icon' onClick={handleRemoveCard} onTouchStart={handleRemoveCard} />
                 <textarea type='text' placeholder='Assunto..'
                     value={subject} onChange={(e) => setSubject(e.target.value)} />
             </div>
