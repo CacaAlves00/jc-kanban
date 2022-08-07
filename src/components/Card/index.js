@@ -25,6 +25,8 @@ function Card({ cardId, removeCard }) {
 
     const cardRef = useRef()
 
+    const texteareaRef = useRef()
+
     const [position, setPosition] = useState(initialPosition)
 
     const styles = {
@@ -69,7 +71,7 @@ function Card({ cardId, removeCard }) {
         removeCard()
     }
 
-    function handelDrag(e) {
+    function handleDrag(e) {
         const bounding = cardRef.current.getBoundingClientRect()
 
         setPosition((position) => {
@@ -91,10 +93,11 @@ function Card({ cardId, removeCard }) {
     }
 
     return (
-        <Draggable position={position} onDrag={handelDrag}>
-            <div id='card' ref={cardRef} style={styles}>
+        <Draggable draggable={true}>
+            <div position={position} onDrag={handleDrag} id='card' ref={cardRef} 
+            style={styles} onTouchStart={() => texteareaRef.current.focus()}>
                 <GrClose className='icon' onClick={handleRemoveCard} onTouchStart={handleRemoveCard} />
-                <textarea type='text' placeholder='Assunto..'
+                <textarea type='text' placeholder='Assunto..' ref={texteareaRef}
                     value={subject} onChange={(e) => setSubject(e.target.value)} />
             </div>
         </Draggable>
